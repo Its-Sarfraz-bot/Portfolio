@@ -5,7 +5,21 @@
   <title>Portfolio - Sarfraz Ali</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <link rel="icon" type="image/jpeg" href="MY Logo.jpeg">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,
+    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+      <defs>
+        <filter id='glow' x='-20%25' y='-20%25' width='140%25' height='140%25'>
+          <feGaussianBlur stdDeviation='3' result='blur' />
+          <feComposite in='SourceGraphic' in2='blur' operator='over' />
+        </filter>
+        <clipPath id='circleView'>
+          <circle cx='50' cy='50' r='40' />
+        </clipPath>
+      </defs>
+      <circle cx='50' cy='50' r='40' fill='%230d0d0d' />
+      <image href='MY Logo.jpeg' x='10' y='10' width='80' height='80' clip-path='url(%23circleView)' />
+      <circle cx='50' cy='50' r='41' stroke='orange' stroke-width='4' fill='none' filter='url(%23glow)' />
+    </svg>">
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
