@@ -5,21 +5,31 @@
   <title>Portfolio - Sarfraz Ali</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
- <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,
-    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
-      <defs>
-        <filter id='glow' x='-30%25' y='-30%25' width='160%25' height='160%25'>
-          <feGaussianBlur stdDeviation='4' result='blur' />
-          <feComposite in='SourceGraphic' in2='blur' operator='over' />
-        </filter>
-        <clipPath id='circleView'>
-          <circle cx='50' cy='50' r='40' />
-        </clipPath>
-      </defs>
-      <circle cx='50' cy='50' r='40' fill='%230d0d0d' />
-      <image href='MY Logo.jpeg' x='10' y='10' width='80' height='80' clip-path='url(%23circleView)' />
-      <circle cx='50' cy='50' r='41' stroke='orange' stroke-width='4' fill='none' filter='url(%23glow)' />
-    </svg>">
+<link id="dynamic-favicon" rel="icon" type="image/png">
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const img = new Image();
+      
+      // 1. Pehle bataya ke load hone par kya karna hai
+      img.onload = function() {
+        const canvas = document.createElement('canvas');
+        canvas.width = 64;
+        canvas.height = 64;
+        const ctx = canvas.getContext('2d');
+
+        ctx.beginPath();
+        ctx.arc(32, 32, 32, 0, Math.PI * 2);
+        ctx.clip();
+
+        ctx.drawImage(img, 0, 0, 64, 64);
+
+        document.getElementById('dynamic-favicon').href = canvas.toDataURL('image/png');
+      };
+
+      // 2. Akhir mein image ka path diya taake event miss na ho
+      img.src = 'MY Logo.jpeg';
+    });
+  </script>
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
