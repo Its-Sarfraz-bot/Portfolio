@@ -25,7 +25,6 @@
       img.src = 'MY Logo.jpeg';
     });
 
-    // SMOOTH VIP MODAL LOGIC (CV MODAL)
     function openCVVIPAlert() {
       document.getElementById('modalOverlay').style.display = 'block';
       document.getElementById('cvVIPModal').style.display = 'block';
@@ -351,7 +350,7 @@
       margin-top: 20px;
     }
 
-    /* --- VIP MODALS SECURE CODES --- */
+    /* --- VIP MODALS SYSTEM --- */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -378,7 +377,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
 
     .modal-header h3 { font-size: 24px; font-weight: 800; color: #fff; }
@@ -395,12 +394,14 @@
     .modal-body p { margin-bottom: 15px; }
     .modal-body i { margin-right: 8px; color: orange; }
 
-    /* --- Dynamic Projects Modal Styling --- */
+    /* --- ADVANCED PROJECT SYSTEM (FIXED BUTTONS LAYOUT) --- */
     .projects-modal {
       position: fixed;
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       width: 95%; max-width: 550px;
+      height: 85vh; /* Fixed viewport constraint height */
+      max-height: 650px;
       background: #111;
       border: 2px solid orange;
       border-radius: 12px;
@@ -411,14 +412,21 @@
       color: #fff;
     }
 
+    /* Sub container layout wrapper to handle flexible viewports */
+    .gpa-layout-wrapper {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    /* SCROLLS ONLY THE SUBJECT INPUTS AREA */
     .modal-scroll-area {
-      max-height: 320px;
+      flex: 1; /* Autogrow but lock strictly between header and footer */
       overflow-y: auto;
       padding-right: 5px;
       margin-bottom: 15px;
     }
 
-    /* Custom scrollbar for scroll area */
     .modal-scroll-area::-webkit-scrollbar {
       width: 6px;
     }
@@ -451,6 +459,13 @@
     .subject-row select { width: 30%; cursor: pointer; }
     .subject-row input:focus, .subject-row select:focus { border-color: orange; outline: none; }
 
+    /* LOCKED BOTTOM FOOTER FOR ACTION BUTTONS */
+    .modal-fixed-footer {
+      background: #111;
+      padding-top: 10px;
+      border-top: 1px solid #222;
+    }
+
     .gpa-action-btn {
       background: transparent;
       color: orange;
@@ -462,7 +477,7 @@
       font-weight: 600;
       font-size: 14px;
       transition: 0.3s;
-      margin-bottom: 15px;
+      margin-bottom: 12px;
     }
     .gpa-action-btn:hover {
       background: rgba(255, 165, 0, 0.1);
@@ -481,8 +496,9 @@
 
       nav ul {
         justify-content: center;
-        gap: 20px;
+        gap: 15px;
         padding: 5px 0;
+        flex-wrap: wrap;
       }
 
       nav ul li a {
@@ -490,7 +506,7 @@
         letter-spacing: 0.5px;
       }
 
-      nav .nav-hire-btn {
+      nav .nav-project-desktop-btn {
         display: none !important;
       }
 
@@ -539,9 +555,15 @@
       .about-content h3 { font-size: 20px; }
       .about-content p { font-size: 14px; }
 
-      .subject-row input[type="text"] { font-size: 12px; padding: 8px; }
-      .subject-row input[type="number"] { font-size: 12px; padding: 8px; }
-      .subject-row select { font-size: 12px; padding: 8px; }
+      /* Optimize text row parameters inside tight viewports */
+      .subject-row input[type="text"] { font-size: 11px; padding: 7px; }
+      .subject-row input[type="number"] { font-size: 11px; padding: 7px; }
+      .subject-row select { font-size: 11px; padding: 7px; }
+      
+      .projects-modal {
+        height: 90vh;
+        padding: 15px;
+      }
     }
   </style>
 </head>
@@ -562,13 +584,14 @@
   </div>
 
   <div class="projects-modal" id="projectsModal">
-    <div class="modal-header">
-      <h3>My <span>Projects</span></h3>
-      <button class="modal-close-btn" onclick="closeProjectsModal()">&times;</button>
-    </div>
-    
-    <div class="modal-body">
-      <div id="projectsListContainer">
+    <div class="gpa-layout-wrapper">
+      
+      <div class="modal-header" style="margin-bottom: 10px; flex-shrink: 0;">
+        <h3>My <span>Projects</span></h3>
+        <button class="modal-close-btn" onclick="closeProjectsModal()">&times;</button>
+      </div>
+      
+      <div id="projectsListContainer" style="flex: 1;">
         <ul style="list-style: none; padding: 0; margin: 0;">
           <li>
             <a href="#" onclick="showGPACalculator(event)" style="color: orange; font-size: 17px; text-decoration: none; font-weight: 600; display: block; padding: 15px; background: #161616; border-radius: 6px; border: 1px dashed orange; transition: 0.3s; text-align: left;">
@@ -578,23 +601,26 @@
         </ul>
       </div>
 
-      <div id="gpaCalculatorArea" style="display: none;">
-        <button onclick="backToProjectsList()" style="background: none; border: none; color: #888; cursor: pointer; margin-bottom: 15px; font-size: 13px; padding: 0; transition: 0.3s;">
+      <div id="gpaCalculatorArea" style="display: none; flex-direction: column; height: 100%;">
+        <button onclick="backToProjectsList()" style="background: none; border: none; color: #888; cursor: pointer; margin-bottom: 10px; font-size: 13px; padding: 0; transition: 0.3s; text-align: left; flex-shrink: 0;">
           <i class="fas fa-arrow-left"></i> Back to Project Selection
         </button>
 
-        <h3 style="color: orange; font-size: 20px; margin-bottom: 5px; font-weight: 600;"><i class="fas fa-calculator"></i> GPA Calculator</h3>
-        <p style="font-size: 13px; color: #888; margin-bottom: 15px;">Enter marks and select credit hours for each subject:</p>
+        <h3 style="color: orange; font-size: 20px; margin-bottom: 2px; font-weight: 600; flex-shrink: 0;"><i class="fas fa-calculator"></i> GPA Calculator</h3>
+        <p style="font-size: 13px; color: #888; margin-bottom: 10px; flex-shrink: 0;">Enter marks and select credit hours for each subject:</p>
         
-        <div id="gpaLimitMessage" style="color: #ff3333; font-weight: bold; font-size: 14px; text-align: center; margin-bottom: 10px; display: none; background: rgba(255,51,51,0.1); padding: 8px; border-radius: 6px; border: 1px solid #ff3333;"></div>
+        <div id="gpaLimitMessage" style="color: #ff3333; font-weight: bold; font-size: 13px; text-align: center; margin-bottom: 10px; display: none; background: rgba(255,51,51,0.1); padding: 8px; border-radius: 6px; border: 1px solid #ff3333; flex-shrink: 0;"></div>
 
         <div class="modal-scroll-area" id="subjectsContainer">
           </div>
 
-        <button class="gpa-action-btn" id="addSubjectBtn" onclick="addNewSubjectRow()"><i class="fas fa-plus"></i> Add Subject</button>
-        
-        <button onclick="calculateMyUniversalGPA()" style="background: orange; color: #000; border: none; padding: 12px; width: 100%; font-weight: 800; border-radius: 6px; cursor: pointer; font-size: 15px; transition: 0.3s;">Calculate GPA</button>
-        <div id="gpaResult" style="margin-top: 20px; font-size: 18px; font-weight: bold; text-align: center; color: orange;"></div>
+        <div class="modal-fixed-footer">
+          <button class="gpa-action-btn" id="addSubjectBtn" onclick="addNewSubjectRow()"><i class="fas fa-plus"></i> Add Subject</button>
+          
+          <button onclick="calculateMyUniversalGPA()" style="background: orange; color: #000; border: none; padding: 12px; width: 100%; font-weight: 800; border-radius: 6px; cursor: pointer; font-size: 15px; transition: 0.3s;">Calculate GPA</button>
+          <div id="gpaResult" style="margin-top: 10px; font-size: 16px; font-weight: bold; text-align: center; color: orange;"></div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -611,9 +637,10 @@
       <li><a href="#" onclick="forceRefresh(event)" class="active">Home</a></li>
       <li><a href="#services">Services</a></li>
       <li><a href="#about">About</a></li>
+      <li><a href="#" onclick="openProjectsModal(); return false;" style="color: orange; font-weight: 600;">Projects</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <button class="btn nav-hire-btn" onclick="openProjectsModal()">Projects</button>
+    <button class="btn nav-project-desktop-btn" onclick="openProjectsModal()">Projects</button>
   </nav>
 
   <div class="hero">
@@ -680,7 +707,6 @@
 </footer>
 
 <script>
-  // CONTROL LOGIC FOR PROJECTS MODAL SYSTEM
   let currentSubjectCount = 0;
   const MAX_SUBJECTS = 10;
 
@@ -698,10 +724,11 @@
     document.getElementById('gpaResult').innerHTML = '';
   }
 
+  // Adjusted toggle display configuration for flexible layout handling
   function showGPACalculator(e) {
     e.preventDefault();
     document.getElementById('projectsListContainer').style.display = 'none';
-    document.getElementById('gpaCalculatorArea').style.display = 'block';
+    document.getElementById('gpaCalculatorArea').style.display = 'flex';
   }
 
   function backToProjectsList() {
@@ -715,7 +742,6 @@
     closeProjectsModal();
   }
 
-  // INITIALIZE DYNAMIC GPA CALCULATOR (DEFAULT 5 SUBJECTS)
   function initializeGPACalculator() {
     const container = document.getElementById('subjectsContainer');
     container.innerHTML = '';
@@ -724,13 +750,11 @@
     document.getElementById('addSubjectBtn').style.opacity = '1';
     document.getElementById('addSubjectBtn').style.cursor = 'pointer';
 
-    // Generate first 5 standard rows
     for (let i = 1; i <= 5; i++) {
       addNewSubjectRow();
     }
   }
 
-  // ADD NEW DYNAMIC SUBJECT ROW (UP TO 10 MAXIMUM)
   function addNewSubjectRow() {
     if (currentSubjectCount >= MAX_SUBJECTS) {
       const msgBox = document.getElementById('gpaLimitMessage');
@@ -759,13 +783,11 @@
     
     container.appendChild(row);
 
-    // Style cleanup if limit hit
     if (currentSubjectCount === MAX_SUBJECTS) {
       document.getElementById('addSubjectBtn').style.opacity = '0.5';
     }
   }
 
-  // OFFICIAL HEC QUALITY POINT / GPA MAPPING LOGIC
   function getHECGPAPoints(marks) {
     if (marks >= 85) return 4.0;
     if (marks >= 80) return 3.7;
@@ -775,10 +797,9 @@
     if (marks >= 61) return 2.3;
     if (marks >= 58) return 2.0;
     if (marks >= 55) return 1.7;
-    return 0.0; // Fail status below 55 under standard conditions
+    return 0.0;
   }
 
-  // UNIVERSAL WEIGHTED GPA CALCULATION LOGIC
   function calculateMyUniversalGPA() {
     const rows = document.getElementsByClassName('subject-row');
     let totalQualityPoints = 0;
@@ -797,7 +818,6 @@
       const marks = parseFloat(marksInput);
       const creditHours = parseFloat(creditSelect);
 
-      // Validation check for marks range
       if (marks < 0 || marks > 100) {
         alert("Please enter marks between 0 and 100.");
         return;
@@ -814,7 +834,7 @@
     }
 
     const finalSemesterGPA = (totalQualityPoints / totalCreditHours).toFixed(2);
-    document.getElementById('gpaResult').innerHTML = `Semester GPA: ${finalSemesterGPA} <i class="fas fa-award"></i><br><span style="font-size:12px; color:#888;">Total Credits processed: ${totalCreditHours}</span>`;
+    document.getElementById('gpaResult').innerHTML = `Semester GPA: ${finalSemesterGPA} <i class="fas fa-award"></i><br><span style="font-size:11px; color:#888;">Total Credits processed: ${totalCreditHours}</span>`;
   }
 </script>
 
