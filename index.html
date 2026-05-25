@@ -59,6 +59,7 @@
     body {
       background: #0d0d0d;
       color: #fff;
+      overflow-x: hidden;
     }
 
     .container {
@@ -74,6 +75,8 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 60px;
+      position: relative;
+      z-index: 10;
     }
 
     .logo img {
@@ -119,12 +122,15 @@
       align-items: center;
       flex-wrap: wrap;
       min-height: 80vh;
-      gap: 30px;
+      gap: 50px;
+      background: #0d0d0d !important;
     }
 
     .hero-text {
       flex: 1;
       min-width: 300px;
+      position: relative;
+      z-index: 2; 
     }
 
     .hero-text p {
@@ -186,61 +192,101 @@
       padding: 20px 30px;
       border-radius: 15px;
       width: fit-content;
+      backdrop-filter: blur(5px);
+      z-index: 2;
+      position: relative;
     }
 
     .stat h3 { color: orange; font-size: 22px; }
     .stat p { color: #888; font-size: 13px; }
 
+    /* ==========================================================================
+       IMAGE SECTION: FIXED DARK BACKGROUND WITH RUNNING GRADIENT GLOW
+       ========================================================================== */
     .hero-img-container {
       position: relative;
-      width: 500px;
-      height: 500px;
+      width: 360px;
+      height: 400px;
       display: flex;
       justify-content: center;
       align-items: flex-end;
       cursor: pointer;
+      margin-top: -30px;
+      transition: transform 0.4s ease;
     }
 
+    /* Base Round Circle: Moving gradient ring on the edges */
     .bg-circle {
       position: absolute;
-      width: 400px;
-      height: 400px;
-      background: #161616;
+      width: 300px; 
+      height: 300px;
       border-radius: 50%;
-      bottom: 20px;
+      bottom: 10px;
+      left: calc(50% - 150px);
       z-index: 1;
-      box-shadow: 0 0 30px rgba(255, 165, 0, 0.2);
-      transition: 0.5s ease;
+      transition: all 0.5s ease;
+      padding: 4px; /* Gradient Border Outer Thickness */
+      background: linear-gradient(45deg, #ff9f00, #ff4500, #ffaa00, #ff9f00);
+      background-size: 300% 300%;
+      animation: roundContinuousGlow 3s linear infinite;
+      box-shadow: 0 0 25px rgba(255, 165, 0, 0.4);
     }
 
-    .hero-img-container:hover .bg-circle {
-      box-shadow: 0 0 70px rgba(255, 165, 0, 0.6);
-      background: #1a1a1a;
+    /* Inside background: Locked to pure dark #0d0d0d just like you requested */
+    .bg-circle::after {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: #0d0d0d;
+      border-radius: 50%;
     }
 
+    /* Original Clipper Container allowing the head to seamlessly pop-out */
     .img-clipper {
       position: absolute;
-      width: 400px;
-      height: 550px;
-      bottom: 20px;
+      width: 300px;
+      height: 400px;
+      bottom: 10px;
+      left: calc(50% - 150px);
       z-index: 2;
       overflow: hidden;
-      border-bottom-left-radius: 200px; 
-      border-bottom-right-radius: 200px;
+      border-bottom-left-radius: 150px; 
+      border-bottom-right-radius: 150px;
       display: flex;
       justify-content: center;
       align-items: flex-end;
     }
 
     .img-clipper img {
-      width: 380px;
+      width: 100%;
       height: auto;
       display: block;
-      transition: 0.5s ease;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: transform 0.5s ease;
     }
 
-    .hero-img-container:hover img {
-      transform: scale(1.03);
+    /* Gradient shift animation that runs continuously */
+    @keyframes roundContinuousGlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* HOVER EFFECTS: Glow intense ho jayega */
+    .hero-img-container:hover {
+      transform: translateY(-5px) scale(1.02);
+    }
+
+    .hero-img-container:hover .bg-circle {
+      box-shadow: 0 0 50px rgba(255, 165, 0, 0.85), 0 0 80px rgba(255, 69, 0, 0.6);
+    }
+
+    .hero-img-container:hover .img-clipper img {
+      transform: translateX(-50%) scale(1.10); 
     }
 
     /* --- Sections Styling --- */
@@ -394,13 +440,13 @@
     .modal-body p { margin-bottom: 15px; }
     .modal-body i { margin-right: 8px; color: orange; }
 
-    /* --- ADVANCED PROJECT SYSTEM (FIXED BUTTONS LAYOUT) --- */
+    /* --- ADVANCED PROJECT SYSTEM --- */
     .projects-modal {
       position: fixed;
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       width: 95%; max-width: 550px;
-      height: 85vh; /* Fixed viewport constraint height */
+      height: 85vh;
       max-height: 650px;
       background: #111;
       border: 2px solid orange;
@@ -412,31 +458,22 @@
       color: #fff;
     }
 
-    /* Sub container layout wrapper to handle flexible viewports */
     .gpa-layout-wrapper {
       display: flex;
       flex-direction: column;
       height: 100%;
     }
 
-    /* SCROLLS ONLY THE SUBJECT INPUTS AREA */
     .modal-scroll-area {
-      flex: 1; /* Autogrow but lock strictly between header and footer */
+      flex: 1;
       overflow-y: auto;
       padding-right: 5px;
       margin-bottom: 15px;
     }
 
-    .modal-scroll-area::-webkit-scrollbar {
-      width: 6px;
-    }
-    .modal-scroll-area::-webkit-scrollbar-thumb {
-      background: #333;
-      border-radius: 10px;
-    }
-    .modal-scroll-area::-webkit-scrollbar-thumb:hover {
-      background: orange;
-    }
+    .modal-scroll-area::-webkit-scrollbar { width: 6px; }
+    .modal-scroll-area::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+    .modal-scroll-area::-webkit-scrollbar-thumb:hover { background: orange; }
 
     .subject-row {
       display: flex;
@@ -459,7 +496,6 @@
     .subject-row select { width: 30%; cursor: pointer; }
     .subject-row input:focus, .subject-row select:focus { border-color: orange; outline: none; }
 
-    /* LOCKED BOTTOM FOOTER FOR ACTION BUTTONS */
     .modal-fixed-footer {
       background: #111;
       padding-top: 10px;
@@ -479,9 +515,7 @@
       transition: 0.3s;
       margin-bottom: 12px;
     }
-    .gpa-action-btn:hover {
-      background: rgba(255, 165, 0, 0.1);
-    }
+    .gpa-action-btn:hover { background: rgba(255, 165, 0, 0.1); }
 
     /* ==========================================================================
        MOBILE RESPONSIVENESS MEDIA QUERIES
@@ -501,20 +535,15 @@
         flex-wrap: wrap;
       }
 
-      nav ul li a {
-        font-size: 14px;
-        letter-spacing: 0.5px;
-      }
-
-      nav .nav-project-desktop-btn {
-        display: none !important;
-      }
+      nav ul li a { font-size: 14px; letter-spacing: 0.5px; }
+      nav .nav-project-desktop-btn { display: none !important; }
 
       .hero {
         flex-direction: column;
         text-align: center;
         min-height: auto;
-        gap: 25px;
+        gap: 35px;
+        padding: 20px;
       }
 
       .hero-text h3 { font-size: 24px; }
@@ -539,31 +568,15 @@
       .hero-img-container {
         width: 100%;
         max-width: 290px;
-        height: 290px;
+        height: 330px;
         margin: 0 auto;
+        margin-top: 10px;
       }
 
-      .bg-circle { width: 260px; height: 260px; bottom: 5px; }
-      .img-clipper { width: 260px; height: 340px; bottom: 5px; }
-      .img-clipper img { width: 240px; }
-
-      .section-padding { padding: 60px 0 30px; }
-      .section-title { font-size: 26px; text-align: center; margin-bottom: 25px; }
-      .services-grid { gap: 20px; }
-      .service-card { text-align: center; padding: 20px; }
-      .about-content { text-align: center; }
-      .about-content h3 { font-size: 20px; }
-      .about-content p { font-size: 14px; }
-
-      /* Optimize text row parameters inside tight viewports */
-      .subject-row input[type="text"] { font-size: 11px; padding: 7px; }
-      .subject-row input[type="number"] { font-size: 11px; padding: 7px; }
-      .subject-row select { font-size: 11px; padding: 7px; }
+      .bg-circle { width: 240px; height: 240px; bottom: 5px; left: calc(50% - 120px); }
+      .img-clipper { width: 240px; height: 330px; bottom: 5px; left: calc(50% - 120px); border-bottom-left-radius: 120px; border-bottom-right-radius: 120px; }
       
-      .projects-modal {
-        height: 90vh;
-        padding: 15px;
-      }
+      .hero-img-container:hover .img-clipper img { transform: translateX(-50%) scale(1.10); }
     }
   </style>
 </head>
@@ -577,15 +590,17 @@
       <button class="modal-close-btn" onclick="closeCVVIPAlert()">&times;</button>
     </div>
     <div class="modal-body">
-      <p><i class="fas fa-graduation-cap"></i> <strong>Official Status: BS Computer Science (IMCS)</strong> - Currently finishing the degree.</p>
-      <p><i class="fas fa-sync-alt fa-spin"></i> <strong>VIP Update:</strong> Professional CV is currently being optimized with premium live web and app projects.</p>
-      <p><i class="fas fa-envelope"></i> In the meantime, kindly connect directly using the <strong>Hire Me</strong> action or active links in the footer below.</p>
+      <p><i class="fas fa-graduation-cap"></i> <strong>Official Status:</strong> BS Computer Science (IMCS)</p>
+      <p><i class="fas fa-sync-alt fa-spin"></i> <strong>Status:</strong> CV is currently being optimized with premium live projects.</p>
+      <p><i class="fas fa-envelope"></i> <strong>Contact me:</strong> 
+        <a href="mailto:meersarfrazkhokhar@gmail.com" style="color: orange; text-decoration: none;">meersarfrazkhokhar@gmail.com</a> 
+        or use the <strong>Hire Me</strong> button on my home page.
+      </p>
     </div>
   </div>
 
   <div class="projects-modal" id="projectsModal">
     <div class="gpa-layout-wrapper">
-      
       <div class="modal-header" style="margin-bottom: 10px; flex-shrink: 0;">
         <h3>My <span>Projects</span></h3>
         <button class="modal-close-btn" onclick="closeProjectsModal()">&times;</button>
@@ -611,232 +626,227 @@
         
         <div id="gpaLimitMessage" style="color: #ff3333; font-weight: bold; font-size: 13px; text-align: center; margin-bottom: 10px; display: none; background: rgba(255,51,51,0.1); padding: 8px; border-radius: 6px; border: 1px solid #ff3333; flex-shrink: 0;"></div>
 
-        <div class="modal-scroll-area" id="subjectsContainer">
-          </div>
+        <div class="modal-scroll-area" id="subjectsContainer"></div>
 
         <div class="modal-fixed-footer">
           <button class="gpa-action-btn" id="addSubjectBtn" onclick="addNewSubjectRow()"><i class="fas fa-plus"></i> Add Subject</button>
-          
           <button onclick="calculateMyUniversalGPA()" style="background: orange; color: #000; border: none; padding: 12px; width: 100%; font-weight: 800; border-radius: 6px; cursor: pointer; font-size: 15px; transition: 0.3s;">Calculate GPA</button>
           <div id="gpaResult" style="margin-top: 10px; font-size: 16px; font-weight: bold; text-align: center; color: orange;"></div>
         </div>
-
       </div>
     </div>
   </div>
 
+  <div class="container" id="home">
+    <nav>
+      <div class="logo">
+        <a href="#" onclick="forceRefresh(event)">
+          <img src="MY Logo.jpeg" alt="Sarfraz Logo">
+        </a>
+      </div>
+      <ul>
+        <li><a href="#" onclick="forceRefresh(event)">Home</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="btn nav-project-desktop-btn" onclick="openProjectsModal()">Projects</button>
+    </nav>
 
-<div class="container" id="home">
-  <nav>
-    <div class="logo">
-      <a href="#" onclick="forceRefresh(event)">
-        <img src="MY Logo.jpeg" alt="Sarfraz Logo">
-      </a>
+    <div class="hero">
+      <div class="hero-text">
+        <p>Hi I am</p>
+        <h3>Sarfraz Ali</h3>
+        <h1>CREATIVE FRONTEND DEVELOPER</h1>
+        <div class="buttons">
+          <button class="btn" onclick="event.preventDefault(); window.location.href='mailto:meersarfrazkhokhar@gmail.com?subject=Project Inquiry&body=Hi Sarfraz, I would like to discuss a project with you.';">Hire Me</button>
+          <button class="btn-outline" onclick="openCVVIPAlert()">Download CV</button>
+        </div>
+        <div class="stats">
+          <div class="stat"><h3>5+</h3><p>Experiences</p></div>
+          <div class="stat"><h3>20+</h3><p>Project done</p></div>
+          <div class="stat"><h3>80+</h3><p>Happy Clients</p></div>
+        </div>
+      </div>
+      
+      <div class="hero-img-container">
+        <div class="bg-circle"></div>
+        <div class="img-clipper">
+          <img src="MY pic.png" alt="Sarfraz Ali">
+        </div>
+      </div>
     </div>
-    <ul>
-      <li><a href="#" onclick="forceRefresh(event)" class="active">Home</a></li>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#" onclick="openProjectsModal(); return false;" style="color: orange; font-weight: 600;">Projects</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <button class="btn nav-project-desktop-btn" onclick="openProjectsModal()">Projects</button>
-  </nav>
 
-  <div class="hero">
-    <div class="hero-text">
-      <p>Hi I am</p>
-      <h3>Sarfraz Ali</h3>
-      <h1>WEB/APP Designer</h1>
-      <div class="buttons">
-        <button class="btn" onclick="location.href='#contact'">Hire Me</button>
-        <button class="btn-outline" onclick="openCVVIPAlert()">Download CV</button>
+    <section id="services" class="section-padding">
+      <h2 class="section-title">My Services</h2>
+      <div class="services-grid">
+        <div class="service-card">
+          <h4>Web Design & Development</h4>
+          <p>Creating custom, fully responsive, and fast-loading websites tailored to your brand identity.</p>
+        </div>
+        <div class="service-card">
+          <h4>App UI/UX Design</h4>
+          <p>Crafting clean, modern, and user-centric interfaces for mobile and web applications to deliver the best user experience.</p>
+        </div>
+        <div class="service-card">
+          <h4>Frontend Programming</h4>
+          <p>Writing clean, optimized, and maintainable code to bring static designs to life with smooth animations.</p>
+        </div>
       </div>
-      <div class="stats">
-        <div class="stat"><h3>5+</h3><p>Experiences</p></div>
-        <div class="stat"><h3>20+</h3><p>Project done</p></div>
-        <div class="stat"><h3>80+</h3><p>Happy Clients</p></div>
+    </section>
+
+    <section id="about" class="section-padding">
+      <h2 class="section-title">About Me</h2>
+      <div class="about-content">
+        <h3>Designing with Passion, Developing with Precision</h3>
+        <p>Hi, I am Sarfraz Ali, a passionate Web & App Designer and Programmer. I specialize in crafting clean, modern, and high-performance websites and digital experiences. With a strong foundation in modern web technologies, I focus on turning complex problems into beautiful, user-friendly designs. Whether it's building a personal brand portfolio or developing interactive interfaces, I ensure every pixel serves a purpose.</p>
       </div>
-    </div>
-    <div class="hero-img-container">
-      <div class="bg-circle"></div>
-      <div class="img-clipper">
-        <img src="MY pic.png" alt="Sarfraz Ali">
-      </div>
-    </div>
+    </section>
   </div>
 
-  <section id="services" class="section-padding">
-    <h2 class="section-title">My Services</h2>
-    <div class="services-grid">
-      <div class="service-card">
-        <h4>Web Design & Development</h4>
-        <p>Creating custom, fully responsive, and fast-loading websites tailored to your brand identity.</p>
-      </div>
-      <div class="service-card">
-        <h4>App UI/UX Design</h4>
-        <p>Crafting clean, modern, and user-centric interfaces for mobile and web applications to deliver the best user experience.</p>
-      </div>
-      <div class="service-card">
-        <h4>Frontend Programming</h4>
-        <p>Writing clean, optimized, and maintainable code to bring static designs to life with smooth animations.</p>
-      </div>
+  <footer class="footer-section" id="contact">
+    <h2 class="section-title" style="margin-bottom: 10px;">Let's Work Together!</h2>
+    <p style="color: #888; margin-bottom: 40px;">Got a project in mind? Let's turn your ideas into a digital reality.</p>
+
+    <div class="footer-socials">
+      <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.facebook.com/its.meersarfraz03" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://wa.me/923113934521" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      <a href="https://linkedin.com" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
     </div>
-  </section>
+    <p class="copyright">© 2026 Sarfraz Ali. All rights reserved.</p>
+  </footer>
 
-  <section id="about" class="section-padding">
-    <h2 class="section-title">About Me</h2>
-    <div class="about-content">
-      <h3>Designing with Passion, Developing with Precision</h3>
-      <p>Hi, I am Sarfraz Ali, a passionate Web & App Designer and Programmer. I specialize in crafting clean, modern, and high-performance websites and digital experiences. With a strong foundation in modern web technologies, I focus on turning complex problems into beautiful, user-friendly designs. Whether it's building a personal brand portfolio or developing interactive interfaces, I ensure every pixel serves a purpose.</p>
-    </div>
-  </section>
-</div>
+  <script>
+    let currentSubjectCount = 0;
+    const MAX_SUBJECTS = 10;
 
-<footer class="footer-section" id="contact">
-  <h2 class="section-title" style="margin-bottom: 10px;">Let's Work Together!</h2>
-  <p style="color: #888; margin-bottom: 40px;">Got a project in mind? Let's turn your ideas into a digital reality.</p>
-
-  <div class="footer-socials">
-    <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
-    <a href="https://www.facebook.com/its.meersarfraz03" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-    <a href="https://wa.me/923113934521" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-    <a href="https://linkedin.com" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-  </div>
-  <p class="copyright">© 2026 Sarfraz Ali. All rights reserved.</p>
-</footer>
-
-<script>
-  let currentSubjectCount = 0;
-  const MAX_SUBJECTS = 10;
-
-  function openProjectsModal() {
-    document.getElementById('modalOverlay').style.display = 'block';
-    document.getElementById('projectsModal').style.display = 'block';
-    initializeGPACalculator();
-  }
-
-  function closeProjectsModal() {
-    document.getElementById('modalOverlay').style.display = 'none';
-    document.getElementById('projectsModal').style.display = 'none';
-    document.getElementById('gpaCalculatorArea').style.display = 'none';
-    document.getElementById('projectsListContainer').style.display = 'block';
-    document.getElementById('gpaResult').innerHTML = '';
-  }
-
-  // Adjusted toggle display configuration for flexible layout handling
-  function showGPACalculator(e) {
-    e.preventDefault();
-    document.getElementById('projectsListContainer').style.display = 'none';
-    document.getElementById('gpaCalculatorArea').style.display = 'flex';
-  }
-
-  function backToProjectsList() {
-    document.getElementById('gpaCalculatorArea').style.display = 'none';
-    document.getElementById('projectsListContainer').style.display = 'block';
-    document.getElementById('gpaResult').innerHTML = '';
-  }
-
-  function closeAllModals() {
-    closeCVVIPAlert();
-    closeProjectsModal();
-  }
-
-  function initializeGPACalculator() {
-    const container = document.getElementById('subjectsContainer');
-    container.innerHTML = '';
-    currentSubjectCount = 0;
-    document.getElementById('gpaLimitMessage').style.display = 'none';
-    document.getElementById('addSubjectBtn').style.opacity = '1';
-    document.getElementById('addSubjectBtn').style.cursor = 'pointer';
-
-    for (let i = 1; i <= 5; i++) {
-      addNewSubjectRow();
-    }
-  }
-
-  function addNewSubjectRow() {
-    if (currentSubjectCount >= MAX_SUBJECTS) {
-      const msgBox = document.getElementById('gpaLimitMessage');
-      msgBox.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Subject Limit Full! (Maximum 10 Allowed)';
-      msgBox.style.display = 'block';
-      return;
+    function openProjectsModal() {
+      document.getElementById('modalOverlay').style.display = 'block';
+      document.getElementById('projectsModal').style.display = 'block';
+      initializeGPACalculator();
     }
 
-    currentSubjectCount++;
-    const container = document.getElementById('subjectsContainer');
-
-    const row = document.createElement('div');
-    row.className = 'subject-row';
-    row.id = `subjectRow_${currentSubjectCount}`;
-    
-    row.innerHTML = `
-      <input type="text" value="Subject ${currentSubjectCount}" readonly>
-      <input type="number" class="gpa-marks" placeholder="Marks" min="0" max="100">
-      <select class="gpa-credit">
-        <option value="3">3 Cr. Hr</option>
-        <option value="4">4 Cr. Hr</option>
-        <option value="2">2 Cr. Hr</option>
-        <option value="1">1 Cr. Hr</option>
-      </select>
-    `;
-    
-    container.appendChild(row);
-
-    if (currentSubjectCount === MAX_SUBJECTS) {
-      document.getElementById('addSubjectBtn').style.opacity = '0.5';
+    function closeProjectsModal() {
+      document.getElementById('modalOverlay').style.display = 'none';
+      document.getElementById('projectsModal').style.display = 'none';
+      document.getElementById('gpaCalculatorArea').style.display = 'none';
+      document.getElementById('projectsListContainer').style.display = 'block';
+      document.getElementById('gpaResult').innerHTML = '';
     }
-  }
 
-  function getHECGPAPoints(marks) {
-    if (marks >= 85) return 4.0;
-    if (marks >= 80) return 3.7;
-    if (marks >= 75) return 3.3;
-    if (marks >= 70) return 3.0;
-    if (marks >= 65) return 2.7;
-    if (marks >= 61) return 2.3;
-    if (marks >= 58) return 2.0;
-    if (marks >= 55) return 1.7;
-    return 0.0;
-  }
+    function showGPACalculator(e) {
+      e.preventDefault();
+      document.getElementById('projectsListContainer').style.display = 'none';
+      document.getElementById('gpaCalculatorArea').style.display = 'flex';
+    }
 
-  function calculateMyUniversalGPA() {
-    const rows = document.getElementsByClassName('subject-row');
-    let totalQualityPoints = 0;
-    let totalCreditHours = 0;
-    let validInputs = true;
+    function backToProjectsList() {
+      document.getElementById('gpaCalculatorArea').style.display = 'none';
+      document.getElementById('projectsListContainer').style.display = 'block';
+      document.getElementById('gpaResult').innerHTML = '';
+    }
 
-    for (let i = 0; i < rows.length; i++) {
-      const marksInput = rows[i].querySelector('.gpa-marks').value;
-      const creditSelect = rows[i].querySelector('.gpa-credit').value;
+    function closeAllModals() {
+      closeCVVIPAlert();
+      closeProjectsModal();
+    }
 
-      if (marksInput === '') {
-        validInputs = false;
-        break;
+    function initializeGPACalculator() {
+      const container = document.getElementById('subjectsContainer');
+      container.innerHTML = '';
+      currentSubjectCount = 0;
+      document.getElementById('gpaLimitMessage').style.display = 'none';
+      document.getElementById('addSubjectBtn').style.opacity = '1';
+      document.getElementById('addSubjectBtn').style.cursor = 'pointer';
+
+      for (let i = 1; i <= 5; i++) {
+        addNewSubjectRow();
       }
+    }
 
-      const marks = parseFloat(marksInput);
-      const creditHours = parseFloat(creditSelect);
-
-      if (marks < 0 || marks > 100) {
-        alert("Please enter marks between 0 and 100.");
+    function addNewSubjectRow() {
+      if (currentSubjectCount >= MAX_SUBJECTS) {
+        const msgBox = document.getElementById('gpaLimitMessage');
+        msgBox.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Subject Limit Full! (Maximum 10 Allowed)';
+        msgBox.style.display = 'block';
         return;
       }
 
-      const subjectGPA = getHECGPAPoints(marks);
-      totalQualityPoints += (subjectGPA * creditHours);
-      totalCreditHours += creditHours;
+      currentSubjectCount++;
+      const container = document.getElementById('subjectsContainer');
+
+      const row = document.createElement('div');
+      row.className = 'subject-row';
+      row.id = `subjectRow_${currentSubjectCount}`;
+      
+      row.innerHTML = `
+        <input type="text" value="Subject ${currentSubjectCount}" readonly>
+        <input type="number" class="gpa-marks" placeholder="Marks" min="0" max="100">
+        <select class="gpa-credit">
+          <option value="3">3 Cr. Hr</option>
+          <option value="4">4 Cr. Hr</option>
+          <option value="2">2 Cr. Hr</option>
+          <option value="1">1 Cr. Hr</option>
+        </select>
+      `;
+      
+      container.appendChild(row);
+
+      if (currentSubjectCount === MAX_SUBJECTS) {
+        document.getElementById('addSubjectBtn').style.opacity = '0.5';
+      }
     }
 
-    if (!validInputs) {
-      document.getElementById('gpaResult').innerHTML = `<span style="color:#ff3333; font-size:14px;"><i class="fas fa-info-circle"></i> Please enter marks for all fields.</span>`;
-      return;
+    function getHECGPAPoints(marks) {
+      if (marks >= 85) return 4.0;
+      if (marks >= 80) return 3.7;
+      if (marks >= 75) return 3.3;
+      if (marks >= 70) return 3.0;
+      if (marks >= 65) return 2.7;
+      if (marks >= 61) return 2.3;
+      if (marks >= 58) return 2.0;
+      if (marks >= 55) return 1.7;
+      return 0.0;
     }
 
-    const finalSemesterGPA = (totalQualityPoints / totalCreditHours).toFixed(2);
-    document.getElementById('gpaResult').innerHTML = `Semester GPA: ${finalSemesterGPA} <i class="fas fa-award"></i><br><span style="font-size:11px; color:#888;">Total Credits processed: ${totalCreditHours}</span>`;
-  }
-</script>
+    function calculateMyUniversalGPA() {
+      const rows = document.getElementsByClassName('subject-row');
+      let totalQualityPoints = 0;
+      let totalCreditHours = 0;
+      let validInputs = true;
+
+      for (let i = 0; i < rows.length; i++) {
+        const marksInput = rows[i].querySelector('.gpa-marks').value;
+        const creditSelect = rows[i].querySelector('.gpa-credit').value;
+
+        if (marksInput === '') {
+          validInputs = false;
+          break;
+        }
+
+        const marks = parseFloat(marksInput);
+        const creditHours = parseFloat(creditSelect);
+
+        if (marks < 0 || marks > 100) {
+          alert("Please enter marks between 0 and 100.");
+          return;
+        }
+
+        const subjectGPA = getHECGPAPoints(marks);
+        totalQualityPoints += (subjectGPA * creditHours);
+        totalCreditHours += creditHours;
+      }
+
+      if (!validInputs) {
+        document.getElementById('gpaResult').innerHTML = `<span style="color:#ff3333; font-size:14px;"><i class="fas fa-info-circle"></i> Please enter marks for all fields.</span>`;
+        return;
+      }
+
+      const finalSemesterGPA = (totalQualityPoints / totalCreditHours).toFixed(2);
+      document.getElementById('gpaResult').innerHTML = `Semester GPA: ${finalSemesterGPA} <i class="fas fa-award"></i><br><span style="font-size:11px; color:#888;">Total Credits processed: ${totalCreditHours}</span>`;
+    }
+  </script>
 
 </body>
 </html>
