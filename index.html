@@ -79,13 +79,23 @@
       z-index: 10;
     }
 
+    /* --- LOGO GRADIENT FIX WITH YELLOW & ORANGE --- */
+    .logo a {
+      display: inline-flex;
+      padding: 2px; 
+      border-radius: 50%;
+      background: linear-gradient(60deg, rgb(255, 136, 0), #ffffff, #ffffff, #00ffd5, #ffffff, orange);
+      background-size: 300% 300%;
+      animation: roundContinuousGlow 4s linear infinite;
+      text-decoration: none;
+    }
+
     .logo img {
       height: 55px; 
       width: 55px; 
       object-fit: cover; 
       border-radius: 50%; 
-      border: 2px solid orange; 
-      box-shadow: 0 0 10px rgba(255, 165, 0, 0.3); 
+      border: 3px solid #0d0d0d; 
       display: block;
       transition: all 0.4s ease;
       cursor: pointer;
@@ -93,8 +103,6 @@
 
     .logo img:hover {
       transform: scale(1.1);
-      box-shadow: 0 0 25px rgba(255, 165, 0, 0.8);
-      border-color: #fff;
     }
 
     nav ul {
@@ -168,6 +176,8 @@
       border-radius: 6px;
       cursor: pointer;
       transition: 0.4s;
+      text-decoration: none !important; 
+      display: inline-block; 
     }
 
     .btn-outline {
@@ -215,7 +225,7 @@
       transition: transform 0.4s ease;
     }
 
-    /* Base Round Circle: Moving gradient ring on the edges */
+    /* --- MAIN HERO IMAGE GRADIENT FIX WITH YELLOW & ORANGE --- */
     .bg-circle {
       position: absolute;
       width: 300px; 
@@ -225,14 +235,13 @@
       left: calc(50% - 150px);
       z-index: 1;
       transition: all 0.5s ease;
-      padding: 4px; /* Gradient Border Outer Thickness */
-      background: linear-gradient(45deg, #ff9f00, #ff4500, #ffaa00, #ff9f00);
+      padding: 4px; 
+      background: linear-gradient(50deg, orange, #941a9f, #f9b700, #e2ca2b, #00ffc8, orange);
       background-size: 300% 300%;
-      animation: roundContinuousGlow 3s linear infinite;
-      box-shadow: 0 0 25px rgba(255, 165, 0, 0.4);
+      animation: roundContinuousGlow 4s linear infinite;
+      box-shadow: 0 0 25px rgba(255, 215, 0, 0.3); 
     }
 
-    /* Inside background: Locked to pure dark #0d0d0d just like you requested */
     .bg-circle::after {
       content: '';
       display: block;
@@ -242,7 +251,6 @@
       border-radius: 50%;
     }
 
-    /* Original Clipper Container allowing the head to seamlessly pop-out */
     .img-clipper {
       position: absolute;
       width: 300px;
@@ -269,20 +277,18 @@
       transition: transform 0.5s ease;
     }
 
-    /* Gradient shift animation that runs continuously */
     @keyframes roundContinuousGlow {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
 
-    /* HOVER EFFECTS: Glow intense ho jayega */
     .hero-img-container:hover {
       transform: translateY(-5px) scale(1.02);
     }
 
     .hero-img-container:hover .bg-circle {
-      box-shadow: 0 0 50px rgba(255, 165, 0, 0.85), 0 0 80px rgba(255, 69, 0, 0.6);
+      box-shadow: 0 0 50px rgba(255, 215, 0, 0.6), 0 0 80px rgba(255, 140, 0, 0.5);
     }
 
     .hero-img-container:hover .img-clipper img {
@@ -535,10 +541,8 @@
         flex-wrap: wrap;
       }
 
-   
       nav ul li a { font-size: 14px; letter-spacing: 0.5px; }
       
-      /* Mobile ke liye updated code */
       nav .nav-project-desktop-btn { 
         display: block !important; 
         margin-top: 10px; 
